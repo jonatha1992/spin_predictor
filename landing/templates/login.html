@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block title %}Login - Spin Predictor{% endblock %}
+{% block content %} {% if messages %}
+<div class="mb-4">
+  {% for message in messages %}
+  <div
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+    role="alert"
+  >
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="bg-white rounded-lg shadow-lg p-6 space-y-6">
+  <h2 class="text-2xl font-bold text-spin-primary mb-4">Iniciar Sesión</h2>
+  <form method="post" action="{% url 'landing:login' %}">
+    {% csrf_token %}
+    <div class="mb-4">
+      <label for="username" class="block text-gray-700 text-sm font-bold mb-2"
+        >Usuario:</label
+      >
+      <input
+        type="text"
+        id="username"
+        name="username"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        required
+      />
+    </div>
+    <div class="mb-6">
+      <label for="password" class="block text-gray-700 text-sm font-bold mb-2"
+        >Contraseña:</label
+      >
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+        required
+      />
+    </div>
+    <div class="flex items-center justify-between">
+      <button
+        type="submit"
+        class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Iniciar Sesión
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
