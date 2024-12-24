@@ -54,6 +54,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+
 STATIC_URL = '/static/'
 
 # Agrega esta línea si deseas especificar directorios adicionales para archivos estáticos
