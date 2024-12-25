@@ -1,17 +1,16 @@
 <nav class="bg-spin-primary text-white p-4">
-  <div class="container mx-auto flex justify-between items-center">
-    <h1 class="text-2xl font-bold">Spin Predictor</h1>
-    <ul class="flex space-x-4">
-      <li>
-        <a href="{% url 'landing:inicio' %}" class="hover:text-spin-secondary">
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'landing:login' %}" class="hover:text-spin-secondary">
-          Login
-        </a>
-      </li>
-    </ul>
-  </div>
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Spin Predictor</h1>
+        <ul class="flex space-x-4">
+            <li>
+                <a href="{% url 'predict:juego' %}" class="hover:text-spin-secondary">Predict</a>
+            </li>
+            <li>
+                <a href="{% url 'landing:inicio' %}" class="hover:text-spin-secondary">Home</a>
+            </li>
+            <li>
+                <a href="{% url 'landing:login' %}" class="hover:text-spin-secondary">Login</a>
+            </li>
+        </ul>
+    </div>
 </nav>
