@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="bg-white rounded-lg shadow-lg p-6 space-y-6">
+        <h2 class="text-2xl font-bold text-spin-primary mb-4">Parameters</h2>
+        {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.errors %}<p class="text-red-500 text-xs italic">{{ form.username.errors.0 }}</p>{% endif %}
+            </div>
+            <div class="flex items-center space-x-2">
+                <button type="submit"
+                        name="action"
+                        value="init"
+                        class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Iniciar Predictor
+                </button>
+                <button type="submit"
+                        name="action"
+                        value="delete"
+                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Borrar
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -2,6 +2,19 @@
 {% block content %}
     <div class="bg-white rounded-lg shadow-lg p-6 space-y-6">
         <h2 class="text-2xl font-bold text-spin-primary mb-4">Predictor</h2>
+        <!-- Agregar esto donde quieras mostrar los números -->
+        {% if numeros %}
+            <div class="mt-4">
+                <h3>Números guardados:</h3>
+                <ul class="flex space-x-2">
+                    {% for numero in numeros %}
+                        <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %} bg-red-500 text-white{% endif %} rounded-full w-10 h-10 flex items-center justify-center">
+                            {{ numero }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
         {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
         <form method="post">
             {% csrf_token %}
@@ -19,7 +32,7 @@
                 </button>
                 <button type="submit"
                         name="action"
-                        value="clear"
+                        value="delete"
                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Borrar
                 </button>
