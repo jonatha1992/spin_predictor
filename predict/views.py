@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import ParametersForm, PrediccionForm
 
 numeros_jugados = []  # Lista global para almacenar números
@@ -46,13 +46,37 @@ def game(request):
 parametros = {
     'type_roulette': '',
     'limit_game': 0,
+    'neighbors': 0,
+    'probability': 0.0,
 }
 
 
 def parameters(request):
     form = ParametersForm()
+    context = {
+        'form': form
+    }
+
     if request.method == 'POST':
         action = request.POST.get('action')
+        form = ParametersForm(request.POST)
+        
+        if action == 'init' and form.is_valid():
+            # Actualizar parámetros globales
+            parametros['type_roulette'] = form.cleaned_data['type_roulette']
+            parametros['limit_game'] = form.cleaned_data['limite_games']
+            parametros['neighbors'] = form.cleaned_data['neighbors']
+            parametros['probability'] = form.cleaned_data['probability']
+            return redirect('predict:game')
+            
+        elif action == 'delete':
+            # Resetear parámetros
+            parametros['type_roulette'] = ''
+            parametros['limit_game'] = 1
+            parametros['neighbors'] = 0
+            parametros['probability'] = 0.0
+            form = ParametersForm()  # Limpiar formulario
+        
+        context['form'] = form  
 
-    # context['numeros'] = numeros_jugados  # Siempre incluir números en contexto
-    return render(request, 'parameters.html', parametros)
+    return render(request, 'parameters.html', context)

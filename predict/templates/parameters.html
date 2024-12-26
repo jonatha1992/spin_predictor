@@ -1,29 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="bg-white rounded-lg shadow-lg p-6 space-y-6">
-        <h2 class="text-2xl font-bold text-spin-primary mb-4">Parameters</h2>
-        {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-4">
-                {{ form.username.label_tag }}
-                {{ form.username }}
-                {% if form.username.errors %}<p class="text-red-500 text-xs italic">{{ form.username.errors.0 }}</p>{% endif %}
-            </div>
-            <div class="flex items-center space-x-2">
-                <button type="submit"
-                        name="action"
-                        value="init"
-                        class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Iniciar Predictor
-                </button>
-                <button type="submit"
-                        name="action"
-                        value="delete"
-                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Borrar
-                </button>
-            </div>
-        </form>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 space-y-6 max-w-md mx-auto">
+            <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros</h2>
+            <form method="post">
+                {% csrf_token %}
+                <!-- Tipo de Ruleta -->
+                <div class="mb-4">
+                    {{ form.type_roulette.label_tag }}
+                    {{ form.type_roulette }}
+                    {% if form.type_roulette.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.type_roulette.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <!-- Cantidad de vecinos -->
+                <div class="mb-4">
+                    {{ form.neighbors.label_tag }}
+                    {{ form.neighbors }}
+                    {% if form.neighbors.errors %}<p class="text-red-500 text-xs italic">{{ form.neighbors.errors.0 }}</p>{% endif %}
+                </div>
+                <!-- Límite de juegos -->
+                <div class="mb-4">
+                    {{ form.limite_games.label_tag }}
+                    {{ form.limite_games }}
+                    {% if form.limite_games.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.limite_games.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <!-- Umbral de probabilidad -->
+                <div class="mb-4">
+                    {{ form.probability.label_tag }}
+                    {{ form.probability }}
+                    {% if form.probability.errors %}<p class="text-red-500 text-xs italic">{{ form.probability.errors.0 }}</p>{% endif %}
+                </div>
+                <!-- Botones -->
+                <div class="flex items-center space-x-2">
+                    <button type="submit"
+                            name="action"
+                            value="init"
+                            class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Iniciar Predictor
+                    </button>
+                    <button type="submit"
+                            name="action"
+                            value="delete"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Borrar
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock content %}
