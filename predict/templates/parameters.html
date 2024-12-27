@@ -1,5 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
+    {% block extra_js %}
+        <script src="{% static 'js/parameters.js' %}"></script>
+    {% endblock extra_js %}
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-lg p-6 space-y-6 max-w-md mx-auto">
             <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros</h2>
@@ -43,9 +47,9 @@
                     </button>
                     <button type="submit"
                             name="action"
-                            value="delete"
+                            value="clear"
                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Borrar
+                        Limpiar
                     </button>
                 </div>
             </form>

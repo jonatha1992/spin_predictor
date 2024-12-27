@@ -1,42 +1,113 @@
+<!-- predict/templates/game.html -->
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% block content %}
-    <div class="bg-white rounded-lg shadow-lg p-6 space-y-6">
-        <h2 class="text-2xl font-bold text-spin-primary mb-4">Predictor</h2>
-        <!-- Agregar esto donde quieras mostrar los números -->
-        {% if numeros %}
-            <div class="mt-4">
-                <h3>Números guardados:</h3>
-                <ul class="flex space-x-2">
-                    {% for numero in numeros %}
-                        <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %} bg-red-500 text-white{% endif %} rounded-full w-10 h-10 flex items-center justify-center">
-                            {{ numero }}
-                        </li>
-                    {% endfor %}
-                </ul>
+    <div class="bg-gray-100 min-h-screen p-6">
+        <div class="max-w-5xl mx-auto space-y-6">
+            <!-- Tarjeta de Parámetros -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros Configurados</h2>
+                {% if parametros %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <span class="font-medium text-gray-600">Tipo de Ruleta:</span>
+                            <span class="ml-2 text-gray-800">{{ parametros.type_roulette }}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-600">Límite de Juegos:</span>
+                            <span class="ml-2 text-gray-800">{{ parametros.limite_games }}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-600">Cantidad de Vecinos:</span>
+                            <span class="ml-2 text-gray-800">{{ parametros.neighbors }}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-600">Umbral de Probabilidad:</span>
+                            <span class="ml-2 text-gray-800">{{ parametros.probability }}%</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No hay parámetros configurados.</p>
+                {% endif %}
+                <div class="mt-4">
+                    <a href="{% url 'parameters' %}"
+                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Configurar Parámetros
+                    </a>
+                </div>
             </div>
-        {% endif %}
-        {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-4">
-                {{ form.username.label_tag }}
-                {{ form.username }}
-                {% if form.username.errors %}<p class="text-red-500 text-xs italic">{{ form.username.errors.0 }}</p>{% endif %}
+            <!-- Tarjeta de Estadísticas -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-spin-primary mb-4">Estadísticas del Juego</h2>
+                {% if estadisticas %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600">Juegos Totales:</span>
+                            <span class="ml-2 text-gray-800">{{ estadisticas.juegos_totales }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600">Aciertos:</span>
+                            <span class="ml-2 text-gray-800">{{ estadisticas.aciertos }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600">Porcentaje de Aciertos:</span>
+                            <span class="ml-2 text-gray-800">{{ estadisticas.porcentaje_aciertos }}%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600">Último Juego:</span>
+                            <span class="ml-2 text-gray-800">{{ estadisticas.ultimo_juego }}</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No hay estadísticas disponibles.</p>
+                {% endif %}
             </div>
-            <div class="flex items-center space-x-2">
-                <button type="submit"
-                        name="action"
-                        value="predict"
-                        class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Predecir
-                </button>
-                <button type="submit"
-                        name="action"
-                        value="delete"
-                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Borrar
-                </button>
+            <!-- Tarjeta de Predicción -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-spin-primary mb-4">Realizar Predicción</h2>
+                <!-- Mostrar Números Guardados -->
+                {% if numeros %}
+                    <div class="mt-4">
+                        <h3 class="text-lg">Números Guardados:</h3>
+                        <ul class="flex space-x-2 mt-2">
+                            {% for numero in numeros %}
+                                <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %} bg-red-500 text-white{% endif %} rounded-full w-10 h-10 flex items-center justify-center">
+                                    {{ numero }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <!-- Mostrar Resultado -->
+                {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
+                <!-- Formulario de Predicción -->
+                <form method="post">
+                    {% csrf_token %}
+                    <!-- Campo Número -->
+                    <div class="mb-4">
+                        {{ form_prediccion.username.label_tag }}
+                        {% render_field form_prediccion.username class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %}
+                        {% if form_prediccion.username.errors %}
+                            <p class="text-red-500 text-xs italic">{{ form_prediccion.username.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Botones -->
+                    <div class="flex items-center space-x-2">
+                        <button type="submit"
+                                name="action"
+                                value="predict"
+                                class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Predecir
+                        </button>
+                        <button type="submit"
+                                name="action"
+                                value="delete"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Borrar
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 {% endblock content %}

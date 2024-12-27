@@ -63,6 +63,7 @@ werkzeug = "3.0.3"
 whichcraft = "0.6.1"
 wrapt = "1.16.0"
 django = "^5.1.4"
+django-widget-tweaks = "^1.5.0"
 
 
 

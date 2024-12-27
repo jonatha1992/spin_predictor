@@ -14,7 +14,7 @@ class PrediccionForm(forms.Form):
         },
         widget=forms.NumberInput(
             attrs={
-                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+                # 'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
                 'id': 'username',
                 'min': '0',
                 'max': '36',
@@ -28,7 +28,7 @@ class PrediccionForm(forms.Form):
         cleaned_data = super().clean()
         action = self.data.get('action')
         
-        # Solo validar si es acción predecir
+     
         if action == 'predict':
             numero = cleaned_data.get('username')
             if numero is None:
@@ -139,12 +139,12 @@ class ParametersForm(forms.Form):
         # Validar que no se seleccione el placeholder
         if type_roulette == '':
             raise forms.ValidationError({'type_roulette': 'Debe seleccionar un tipo de ruleta válido.'})
+        if neighbors == '':
+            raise forms.ValidationError({'neighbors': 'Debe colocar la cantidad de vecinos.'})
         if limite_games == '':
             raise forms.ValidationError({'limite_games': 'Debe colocar el límite de juegos.'})
         if probability == '':
             raise forms.ValidationError({'probability': 'Debe colocar el umbral de probabilidad.'})
-        if neighbors == '':
-            raise forms.ValidationError({'neighbors': 'Debe colocar la cantidad de vecinos.'})
 
         # Validaciones adicionales para otras acciones
         action = self.data.get('action')

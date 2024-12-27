@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'landing',
     'predict',
     'users',
+    'widget_tweaks',
 ]
 
 
@@ -55,10 +56,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-STATIC_URL = '/static/'
-
-# Agrega esta línea si deseas especificar directorios adicionales para archivos estáticos
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 TEMPLATES = [
     {
