@@ -2,8 +2,8 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% block content %}
-    <div class="bg-gray-100 min-h-screen p-6">
-        <div class="max-w-5xl mx-auto space-y-6">
+    <div class="bg-gray-100 min-h-screen p-6 flex">
+        <div class="  max-w-5xl mx-auto space-y-6">
             <!-- Tarjeta de Parámetros -->
             <div class="bg-white rounded-lg shadow-lg p-6">
                 <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros Configurados</h2>
@@ -30,7 +30,7 @@
                     <p>No hay parámetros configurados.</p>
                 {% endif %}
                 <div class="mt-4">
-                    <a href="{% url 'parameters' %}"
+                    <a href="{% url 'predict:parameters' %}"
                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Configurar Parámetros
                     </a>

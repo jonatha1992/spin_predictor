@@ -52,7 +52,7 @@ def game_view(request):
                 # Procesar la eliminación
                 request.session.pop('numeros', None)
                 request.session.pop('resultado', None)
-            return redirect('game')
+            return redirect('predict:game')
     else:
         form = PrediccionForm()
     
@@ -69,8 +69,6 @@ def game_view(request):
         'black_numbers': black_numbers,  # Define esta función según tu lógica
     }
     return render(request, 'game.html', context)
-
-# predict/views.py
 
 def parameters_view(request):
     if request.method == 'POST':
@@ -90,41 +88,41 @@ def parameters_view(request):
     }
     return render(request, 'parameters.html', context)
 
-def game(request):
-    form = PrediccionForm()
-    context = {
-        'numeros': numeros_jugados,
-        'resultado': '',
-        'form': form,
-        'black_numbers': black_numbers,
-        'red_numbers': red_numbers
-    }
+# def game(request):
+#     form = PrediccionForm()
+#     context = {
+#         'numeros': numeros_jugados,
+#         'resultado': '',
+#         'form': form,
+#         'black_numbers': black_numbers,
+#         'red_numbers': red_numbers
+#     }
 
 
-    if request.method == 'POST':
-        action = request.POST.get('action')
-        if action == 'predict':
-            form = PrediccionForm(request.POST)
-            if form.is_valid():
-                numero = form.cleaned_data['username']
-                numeros_jugados.append(numero)  # Agregar número
-                # Actualizar contexto de forma individual
-                context['resultado'] = f"Ultimo número: {numero}"
-                context['numeros'] = numeros_jugados
-                context['form'] = PrediccionForm()
+#     if request.method == 'POST':
+#         action = request.POST.get('action')
+#         if action == 'predict':
+#             form = PrediccionForm(request.POST)
+#             if form.is_valid():
+#                 numero = form.cleaned_data['username']
+#                 numeros_jugados.append(numero)  # Agregar número
+#                 # Actualizar contexto de forma individual
+#                 context['resultado'] = f"Ultimo número: {numero}"
+#                 context['numeros'] = numeros_jugados
+#                 context['form'] = PrediccionForm()
                 
-        elif action == 'delete':
-            if numeros_jugados:  # Si hay números
-                ultimo_numero = numeros_jugados.pop()  # Eliminar último
-                # Actualizar contexto de forma individual
-                context['resultado'] = f"Número {ultimo_numero} borrado."
-                context['numeros'] = numeros_jugados
+#         elif action == 'delete':
+#             if numeros_jugados:  # Si hay números
+#                 ultimo_numero = numeros_jugados.pop()  # Eliminar último
+#                 # Actualizar contexto de forma individual
+#                 context['resultado'] = f"Número {ultimo_numero} borrado."
+#                 context['numeros'] = numeros_jugados
     
-    # context['numeros'] = numeros_jugados  # Siempre incluir números en contexto
-    return render(request, 'game.html', context)
+#     # context['numeros'] = numeros_jugados  # Siempre incluir números en contexto
+#     return render(request, 'game.html', context)
 
 
-def parameters(request):
+# def parameters(request):
     form = ParametersForm()
     context = {
         'form': form
