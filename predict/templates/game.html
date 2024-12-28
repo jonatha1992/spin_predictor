@@ -3,64 +3,67 @@
 {% load widget_tweaks %}
 {% block content %}
     <div class="bg-gray-100 min-h-screen p-6 flex">
-        <div class="  max-w-5xl mx-auto space-y-6">
-            <!-- Tarjeta de Parámetros -->
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros Configurados</h2>
-                {% if parametros %}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <span class="font-medium text-gray-600">Tipo de Ruleta:</span>
-                            <span class="ml-2 text-gray-800">{{ parametros.type_roulette }}</span>
+        <div class="max-w-5xl mx-auto space-y-6">
+            <!-- Contenedor Responsive para Tarjetas -->
+            <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
+                <!-- Tarjeta de Parámetros -->
+                <div class="flex-1 bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros Configurados</h2>
+                    {% if parametros %}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <span class="font-medium text-gray-600">Tipo de Ruleta:</span>
+                                <span class="ml-2 text-gray-800">{{ parametros.type_roulette }}</span>
+                            </div>
+                            <div>
+                                <span class="font-medium text-gray-600">Límite de Juegos:</span>
+                                <span class="ml-2 text-gray-800">{{ parametros.limite_games }}</span>
+                            </div>
+                            <div>
+                                <span class="font-medium text-gray-600">Cantidad de Vecinos:</span>
+                                <span class="ml-2 text-gray-800">{{ parametros.neighbors }}</span>
+                            </div>
+                            <div>
+                                <span class="font-medium text-gray-600">Umbral de Probabilidad:</span>
+                                <span class="ml-2 text-gray-800">{{ parametros.probability }}%</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="font-medium text-gray-600">Límite de Juegos:</span>
-                            <span class="ml-2 text-gray-800">{{ parametros.limite_games }}</span>
-                        </div>
-                        <div>
-                            <span class="font-medium text-gray-600">Cantidad de Vecinos:</span>
-                            <span class="ml-2 text-gray-800">{{ parametros.neighbors }}</span>
-                        </div>
-                        <div>
-                            <span class="font-medium text-gray-600">Umbral de Probabilidad:</span>
-                            <span class="ml-2 text-gray-800">{{ parametros.probability }}%</span>
-                        </div>
+                    {% else %}
+                        <p>No hay parámetros configurados.</p>
+                    {% endif %}
+                    <div class="mt-4">
+                        <a href="{% url 'predict:parameters' %}"
+                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Configurar
+                        </a>
                     </div>
-                {% else %}
-                    <p>No hay parámetros configurados.</p>
-                {% endif %}
-                <div class="mt-4">
-                    <a href="{% url 'predict:parameters' %}"
-                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Configurar Parámetros
-                    </a>
                 </div>
-            </div>
-            <!-- Tarjeta de Estadísticas -->
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-2xl font-bold text-spin-primary mb-4">Estadísticas del Juego</h2>
-                {% if estadisticas %}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="flex items-center">
-                            <span class="font-medium text-gray-600">Juegos Totales:</span>
-                            <span class="ml-2 text-gray-800">{{ estadisticas.juegos_totales }}</span>
+                <!-- Tarjeta de Estadísticas -->
+                <div class="flex-1 bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Estadísticas del Juego</h2>
+                    {% if estadisticas %}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <span class="font-medium text-gray-600">Juegos Totales:</span>
+                                <span class="ml-2 text-gray-800">{{ estadisticas.juegos_totales }}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-medium text-gray-600">Aciertos:</span>
+                                <span class="ml-2 text-gray-800">{{ estadisticas.aciertos }}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-medium text-gray-600">Porcentaje de Aciertos:</span>
+                                <span class="ml-2 text-gray-800">{{ estadisticas.porcentaje_aciertos }}%</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-medium text-gray-600">Último Juego:</span>
+                                <span class="ml-2 text-gray-800">{{ estadisticas.ultimo_juego }}</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <span class="font-medium text-gray-600">Aciertos:</span>
-                            <span class="ml-2 text-gray-800">{{ estadisticas.aciertos }}</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="font-medium text-gray-600">Porcentaje de Aciertos:</span>
-                            <span class="ml-2 text-gray-800">{{ estadisticas.porcentaje_aciertos }}%</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="font-medium text-gray-600">Último Juego:</span>
-                            <span class="ml-2 text-gray-800">{{ estadisticas.ultimo_juego }}</span>
-                        </div>
-                    </div>
-                {% else %}
-                    <p>No hay estadísticas disponibles.</p>
-                {% endif %}
+                    {% else %}
+                        <p>No hay estadísticas disponibles.</p>
+                    {% endif %}
+                </div>
             </div>
             <!-- Tarjeta de Predicción -->
             <div class="bg-white rounded-lg shadow-lg p-6">
@@ -71,7 +74,7 @@
                         <h3 class="text-lg">Números Guardados:</h3>
                         <ul class="flex space-x-2 mt-2">
                             {% for numero in numeros %}
-                                <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %} bg-red-500 text-white{% endif %} rounded-full w-10 h-10 flex items-center justify-center">
+                                <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %}bg-red-500 text-white{% endif %} rounded-full w-10 h-10 flex items-center justify-center">
                                     {{ numero }}
                                 </li>
                             {% endfor %}
