@@ -33,25 +33,30 @@ def obtener_estadisticas_juego():
     }
 
 def game_view(request):
-    # Obtener parámetros almacenados, por ejemplo desde la sesión
     parametros = request.session.get('parametros', None)
     
     if not parametros:
-        return redirect('parameters')  # Redirigir si no hay parámetros configurados
+        return redirect('parameters')
 
     if request.method == 'POST':
         form = PrediccionForm(request.POST)
         if form.is_valid():
-            action = form.cleaned_data.get('action')
-            numero = form.cleaned_data.get('username')
+            action = request.POST.get('action')
             if action == 'predict':
-                # Procesar la predicción
+                numero = form.cleaned_data.get('username')
+                numeros = request.session.get('numeros', [])
+                # Insertar el nuevo número al inicio de la lista
+                numeros.insert(0, numero)
+                request.session['numeros'] = numeros
                 resultado = realizar_prediccion(numero, parametros)
                 request.session['resultado'] = resultado
             elif action == 'delete':
-                # Procesar la eliminación
-                request.session.pop('numeros', None)
-                request.session.pop('resultado', None)
+                if 'numeros' in request.session:
+                    numeros = request.session.get('numeros', [])
+                    if numeros:
+                        # Eliminar el primer número (el más reciente)
+                        numeros.pop(0)
+                        request.session['numeros'] = numeros
             return redirect('predict:game')
     else:
         form = PrediccionForm()

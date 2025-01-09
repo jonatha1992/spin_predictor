@@ -2,15 +2,15 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% block content %}
-    <div class="bg-gray-100 min-h-screen p-6 flex">
+    <div class="bg-gray-100 min-h-screen pt-3 flex">
         <div class="max-w-5xl mx-auto space-y-6">
             <!-- Contenedor Responsive para Tarjetas -->
             <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
                 <!-- Tarjeta de Parámetros -->
                 <div class="flex-1 bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros Configurados</h2>
+                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros Iniciales</h2>
                     {% if parametros %}
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 gap-4">
                             <div>
                                 <span class="font-medium text-gray-600">Tipo de Ruleta:</span>
                                 <span class="ml-2 text-gray-800">{{ parametros.type_roulette }}</span>
@@ -20,7 +20,7 @@
                                 <span class="ml-2 text-gray-800">{{ parametros.limite_games }}</span>
                             </div>
                             <div>
-                                <span class="font-medium text-gray-600">Cantidad de Vecinos:</span>
+                                <span class="font-medium text-gray-600">Cant. de Vecinos:</span>
                                 <span class="ml-2 text-gray-800">{{ parametros.neighbors }}</span>
                             </div>
                             <div>
@@ -42,7 +42,7 @@
                 <div class="flex-1 bg-white rounded-lg shadow-lg p-6">
                     <h2 class="text-2xl font-bold text-spin-primary mb-4">Estadísticas del Juego</h2>
                     {% if estadisticas %}
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1  gap-4">
                             <div class="flex items-center">
                                 <span class="font-medium text-gray-600">Juegos Totales:</span>
                                 <span class="ml-2 text-gray-800">{{ estadisticas.juegos_totales }}</span>
@@ -65,51 +65,57 @@
                     {% endif %}
                 </div>
             </div>
-            <!-- Tarjeta de Predicción -->
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-2xl font-bold text-spin-primary mb-4">Realizar Predicción</h2>
-                <!-- Mostrar Números Guardados -->
-                {% if numeros %}
-                    <div class="mt-4">
-                        <h3 class="text-lg">Números Guardados:</h3>
-                        <ul class="flex space-x-2 mt-2">
-                            {% for numero in numeros %}
-                                <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %}bg-red-500 text-white{% endif %} rounded-full w-10 h-10 flex items-center justify-center">
-                                    {{ numero }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-                <!-- Mostrar Resultado -->
-                {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
-                <!-- Formulario de Predicción -->
-                <form method="post">
-                    {% csrf_token %}
-                    <!-- Campo Número -->
-                    <div class="mb-4">
-                        {{ form_prediccion.username.label_tag }}
-                        {% render_field form_prediccion.username class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %}
-                        {% if form_prediccion.username.errors %}
-                            <p class="text-red-500 text-xs italic">{{ form_prediccion.username.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                    <!-- Botones -->
-                    <div class="flex items-center space-x-2">
-                        <button type="submit"
-                                name="action"
-                                value="predict"
-                                class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Predecir
-                        </button>
-                        <button type="submit"
-                                name="action"
-                                value="delete"
-                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Borrar
-                        </button>
-                    </div>
-                </form>
+            <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
+                <!-- Tarjeta de Predicción -->
+                <div class="bg-white rounded-lg shadow-lg p-6 h-[300px] w-full md:w-1/4">
+                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Realizar Predicción</h2>
+                    <!-- Mostrar Resultado -->
+                    {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
+                    <!-- Formulario de Predicción -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Campo Número -->
+                        <div class="mb-4">
+                            {{ form_prediccion.username.label_tag }}
+                            {% render_field form_prediccion.username class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %}
+                            {% if form_prediccion.username.errors %}
+                                <p class="text-red-500 text-xs italic">{{ form_prediccion.username.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        <!-- Botones -->
+                        <div class="flex items-center space-x-2">
+                            <button type="submit"
+                                    name="action"
+                                    value="predict"
+                                    class="bg-spin-primary hover:bg-spin-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Predecir
+                            </button>
+                            <button type="submit"
+                                    name="action"
+                                    value="delete"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Borrar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 flex-1 h-[300px] w-full md:w-1/2">
+                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Números salidos</h2>
+                    <!-- Mostrar Números Guardados -->
+                    {% if numeros %}
+                        <div class="h-[200px] overflow-y-auto">
+                            <ul class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                                {% for numero in numeros %}
+                                    <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %}bg-red-500 text-white{% endif %} rounded-full w-8 h-8 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center text-sm md:text-base">
+                                        {{ numero }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <h3 class="text-gray-600">No hay números jugados.</h3>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
