@@ -1,14 +1,18 @@
 <!-- predict/templates/game.html -->
 {% extends "base.html" %}
+{% load static %}
 {% load widget_tweaks %}
 {% block content %}
+    {% block extra_js %}
+        <script src="{% static 'js/game.js' %}"></script>
+    {% endblock extra_js %}
     <div class="bg-gray-100 min-h-screen pt-3 flex">
-        <div class="max-w-5xl mx-auto space-y-6">
-            <!-- Contenedor Responsive para Tarjetas -->
-            <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
-                <!-- Tarjeta de Parámetros -->
-                <div class="flex-1 bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Parámetros Iniciales</h2>
+        <div class="max-w-7xl mx-auto space-y-6 w-full px-4">
+            <!-- Contenedor Principal con Flex -->
+            <div class="flex flex-col lg:flex-row gap-6 h-[300px]">
+                <!-- Tarjeta de Parámetros - 25% -->
+                <div class="bg-white rounded-lg shadow-lg p-6 basis-1/4">
+                    <h2 class="text-2xl  font-bold text-spin-primary mb-4">Parámetros</h2>
                     {% if parametros %}
                         <div class="grid grid-cols-1 gap-4">
                             <div>
@@ -24,7 +28,7 @@
                                 <span class="ml-2 text-gray-800">{{ parametros.neighbors }}</span>
                             </div>
                             <div>
-                                <span class="font-medium text-gray-600">Umbral de Probabilidad:</span>
+                                <span class="font-medium text-gray-600">Probabilidad:</span>
                                 <span class="ml-2 text-gray-800">{{ parametros.probability }}%</span>
                             </div>
                         </div>
@@ -38,8 +42,8 @@
                         </a>
                     </div>
                 </div>
-                <!-- Tarjeta de Estadísticas -->
-                <div class="flex-1 bg-white rounded-lg shadow-lg p-6">
+                <!-- Tarjeta de Estadísticas - 25% -->
+                <div class="bg-white rounded-lg shadow-lg p-6 basis-1/4">
                     <h2 class="text-2xl font-bold text-spin-primary mb-4">Estadísticas del Juego</h2>
                     {% if estadisticas %}
                         <div class="grid grid-cols-1  gap-4">
@@ -64,10 +68,29 @@
                         <p>No hay estadísticas disponibles.</p>
                     {% endif %}
                 </div>
+                <!-- Tarjeta de Números - 50% -->
+                <div class="bg-white rounded-lg shadow-lg p-6 basis-2/4">
+                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Números salidos</h2>
+                    <!-- Mostrar Números Guardados -->
+                    {% if numeros %}
+                        <div class="h-[200px] overflow-y-auto">
+                            <ul class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                                {% for numero in numeros %}
+                                    <li class="{% if forloop.first %}animate-fadeIn{% endif %} numero {% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %}bg-red-500 text-white{% endif %} rounded-full w-8 h-8 md:w-8 md:h-8 flex-shrink-0 flex items-center justify-center text-sm md:text-base">
+                                        {{ numero }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <h3 class="text-gray-600">No hay números jugados.</h3>
+                    {% endif %}
+                </div>
             </div>
-            <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
-                <!-- Tarjeta de Predicción -->
-                <div class="bg-white rounded-lg shadow-lg p-6 h-[300px] w-full md:w-1/4">
+            <!-- Segunda fila -->
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Tarjeta de Predicción - ancho completo -->
+                <div class="bg-white rounded-lg shadow-lg p-6 w-full">
                     <h2 class="text-2xl font-bold text-spin-primary mb-4">Realizar Predicción</h2>
                     <!-- Mostrar Resultado -->
                     {% if resultado %}<div class="mb-4 p-4 bg-blue-100 border-l-4 border-blue-500">{{ resultado }}</div>{% endif %}
@@ -98,23 +121,6 @@
                             </button>
                         </div>
                     </form>
-                </div>
-                <div class="bg-white rounded-lg shadow-lg p-6 flex-1 h-[300px] w-full md:w-1/2">
-                    <h2 class="text-2xl font-bold text-spin-primary mb-4">Números salidos</h2>
-                    <!-- Mostrar Números Guardados -->
-                    {% if numeros %}
-                        <div class="h-[200px] overflow-y-auto">
-                            <ul class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
-                                {% for numero in numeros %}
-                                    <li class="{% if numero == 0 %}bg-green-500 text-white{% elif numero in black_numbers %}bg-black text-white{% else %}bg-red-500 text-white{% endif %} rounded-full w-8 h-8 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center text-sm md:text-base">
-                                        {{ numero }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% else %}
-                        <h3 class="text-gray-600">No hay números jugados.</h3>
-                    {% endif %}
                 </div>
             </div>
         </div>
